@@ -9,6 +9,9 @@
 	<link href="stylesheet.css" rel="stylesheet">
 </head>
 <body>
+	<div id="menu" class="menu">
+
+	</div>
 
 	<script type="text/javascript" src="lib/admin.js"></script>
 </body>
