@@ -2,9 +2,9 @@
 
 
 function mainRoutes(app, middleware, controllers) {
-	app.get('/admin/', middleware.admin.buildHeader, controllers.admin.home);
+	/*app.get('/admin/', middleware.admin.buildHeader, controllers.admin.home);
 	app.get('/admin/index', middleware.admin.buildHeader, controllers.admin.home);
-	app.get('/api/admin/index', controllers.admin.home);
+	app.get('/api/admin/index', controllers.admin.home);*/
 
 	app.get('/admin/plugins', middleware.admin.buildHeader, controllers.admin.plugins.get);
 	app.get('/api/admin/plugins', controllers.admin.plugins.get);
