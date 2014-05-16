@@ -17,6 +17,25 @@ var admin = {};
 		canvas = canvas || $('#canvas');
 		menu = menu || $('#menu');
 
+		
+
+		templates.registerLoader(function(template, callback) {
+			if (templates.cache[template]) {
+				callback(templates.cache[template]);
+			} else {
+				$.ajax({
+					url: RELATIVE_PATH + '/templates/' + template + '.tpl' + (config['cache-buster'] ? '?v=' + config['cache-buster'] : ''),
+					type: 'GET',
+					success: function(data) {
+						callback(data.toString());
+					},
+					error: function(error) {
+						throw new Error("Unable to load template: " + template + " (" + error.statusText + ")");
+					}
+				});
+			}
+		});
+
 		windows.init();
 	});
 }());
