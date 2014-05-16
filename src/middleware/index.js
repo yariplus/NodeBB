@@ -7,6 +7,7 @@ var templates = require('./../../public/src/templates'),
 	db = require('./../database'),
 	auth = require('./../routes/authentication'),
 	emitter = require('./../emitter'),
+	admin = require('../../admin'),
 
 	async = require('async'),
 	path = require('path'),
@@ -230,9 +231,8 @@ module.exports = function(app, data) {
 
 		app.use(relativePath, app.router);
 
-		app.use(relativePath, express.static(path.join(__dirname, '../../', 'public'), {
-			maxAge: app.enabled('cache') ? 5184000000 : 0
-		}));
+		admin.compileCSS();
+		admin.routeStaticDirectory(app);
 
 		app.use(catch404);
 		app.use(handleErrors);
