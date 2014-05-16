@@ -222,12 +222,12 @@ module.exports = function(app, data) {
 
 		auth.initialize(app);
 
-		routeCurrentTheme(app, data.currentThemeId, data.themesData);
-		routeThemeScreenshots(app, data.themesData);
+		//routeCurrentTheme(app, data.currentThemeId, data.themesData);
+		//routeThemeScreenshots(app, data.themesData);
 
-		plugins.getTemplates(function(err, pluginTemplates) {
+		/*plugins.getTemplates(function(err, pluginTemplates) {
 			compileTemplates(pluginTemplates);
-		});
+		});*/
 
 		app.use(relativePath, app.router);
 

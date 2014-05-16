@@ -44,9 +44,9 @@ if(nconf.get('ssl')) {
 
 	// Preparation dependent on plugins
 	plugins.ready(function() {
-		meta.js.minify(app.enabled('minification'));
+		/*meta.js.minify(app.enabled('minification'));
 		meta.css.minify();
-		meta.sounds.init();
+		meta.sounds.init();*/
 	});
 
 	async.parallel({
@@ -121,6 +121,7 @@ if(nconf.get('ssl')) {
 				}
 			});
 		});
+		emitter.emit('templates:compiled');
 	};
 
 }(WebServer));
