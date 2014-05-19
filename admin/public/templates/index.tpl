@@ -7,9 +7,32 @@
 	<title>NodeBB ACP</title>
 
 	<link href="../admin/stylesheet.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body id="canvas">
-	<div id="menu" class="menu"></div>
+	<div id="menu" class="menu">
+		<ul class="category">
+			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
+			<li class="item active selected"><i class="fa fa-home"></i> Home</i></li>
+			<li class="item"><i class="fa fa-home"></i> Users</i></li>
+			<li class="item"><i class="fa fa-home"></i> Permissions</i></li>
+			<li class="item"><i class="fa fa-home"></i> Appearance</i></li>
+		</ul>
+		<ul class="category">
+			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
+			<li class="item"><i class="fa fa-home"></i> Home</i></li>
+			<li class="item"><i class="fa fa-home"></i> Users</i></li>
+			<li class="item"><i class="fa fa-home"></i> Permissions</i></li>
+			<li class="item"><i class="fa fa-home"></i> Appearance</i></li>
+		</ul>
+		<ul class="category">
+			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
+			<li class="item"><i class="fa fa-home"></i> Home</i></li>
+			<li class="item"><i class="fa fa-home"></i> Users</i></li>
+			<li class="item"><i class="fa fa-home"></i> Permissions</i></li>
+			<li class="item active"><i class="fa fa-home"></i> Appearance</i></li>
+		</ul>
+	</div>
 
 
 	<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>

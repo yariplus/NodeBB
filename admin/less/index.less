@@ -14,4 +14,30 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
+
+	.category {
+		.list-unstyled;
+		font-size: 16px;
+		color: #BABABA;
+		font-weight: 300;
+
+		.title {
+			padding: 5px 10px;
+		}
+
+		.item {
+			padding: 5px 10px;
+			font-weight: 400;
+			color: #EBEBEB;
+
+			&.active {
+				background-color: rgba(239,255,191,0.3);
+
+				&.selected {
+					background-color: rgba(239,255,191,1);
+					color: #111111;
+				}
+			}
+		}
+	}
 }
