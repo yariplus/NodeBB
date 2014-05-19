@@ -11,7 +11,7 @@
 </head>
 <body id="canvas">
 	<div id="menu" class="menu">
-		<ul class="category">
+		<ul class="category active">
 			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
 			<li class="item active selected"><i class="fa fa-home"></i> Home</i></li>
 			<li class="item"><i class="fa fa-home"></i> Users</i></li>
@@ -34,7 +34,7 @@
 		</ul>
 	</div>
 
-
+	<script>var RELATIVE_PATH = "{relative_path}";</script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="{relative_path}/src/templates.js"></script>

@@ -17,9 +17,11 @@ var admin = {};
 		canvas = canvas || $('#canvas');
 		menu = menu || $('#menu');
 
-		
+		$('.menu .category .title').on('click', function() {
+			$(this).parent().toggleClass('active');
+		});
 
-		templates.registerLoader(function(template, callback) {
+		/*templates.registerLoader(function(template, callback) {
 			if (templates.cache[template]) {
 				callback(templates.cache[template]);
 			} else {
@@ -34,7 +36,7 @@ var admin = {};
 					}
 				});
 			}
-		});
+		});*/
 
 		windows.init();
 	});
