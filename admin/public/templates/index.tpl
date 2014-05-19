@@ -34,6 +34,8 @@
 		</ul>
 	</div>
 
+	<img class="logo" src="{relative_path}/admin/images/nodebb-logo.png" />
+
 	<script>var RELATIVE_PATH = "{relative_path}";</script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
