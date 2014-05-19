@@ -10,7 +10,7 @@
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body id="canvas">
-	<div id="menu" class="menu">
+	<div id="menu">
 		<ul class="category active">
 			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
 			<li data-page="Home" class="item"><i class="fa fa-home"></i> Home</i></li>
@@ -34,11 +34,17 @@
 		</ul>
 	</div>
 
-	<img class="logo" src="{relative_path}/admin/images/nodebb-logo.png" />
+	<div id="profile">
+		<img class="avatar img-circle" />
+	</div>
+
+	<img id="logo" src="{relative_path}/admin/images/nodebb-logo.png" />
 
 	<script>var RELATIVE_PATH = "{relative_path}";</script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+	<script src="{relative_path}/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="{relative_path}/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="{relative_path}/src/templates.js"></script>
 	<script type="text/javascript" src="{relative_path}/src/translator.js?{cache-buster}"></script>
 	<script type="text/javascript" src="{relative_path}/src/ajaxify.js?{cache-buster}"></script>
@@ -57,5 +63,22 @@
 	<script type="text/javascript" src="{relative_path}/src/utils.js"></script>
 	<script type="text/javascript" src="{relative_path}/src/app.js?{cache-buster}"></script>
 	<script type="text/javascript" src="{relative_path}/admin/lib/admin.js?{cache-buster}"></script>
+
+	<script>
+		require.config({
+			baseUrl: "{relative_path}/src/modules",
+			waitSeconds: 3,
+			urlArgs: "{cache-buster}",
+			paths: {
+				'forum': '../forum',
+				'vendor': '../../vendor',
+				'buzz': '../../vendor/buzz/buzz.min'
+			}
+		});
+	</script>
+
+	<!-- BEGIN scripts -->
+	<script type="text/javascript" src="{scripts.src}"></script>
+	<!-- END scripts -->
 </body>
 </html>

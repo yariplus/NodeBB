@@ -37,7 +37,9 @@ var admin = {};
 	};
 
 
-
+	function onConnect() {
+		$('#profile').addClass('active').children('.avatar').attr('src', app.userpicture);
+	}
 
 	$(function() {
 		canvas = canvas || $('#canvas');
@@ -67,6 +69,8 @@ var admin = {};
 				});
 			}
 		});*/
+
+		$(window).on('action:connected', onConnect);
 
 		windows.init();
 	});
