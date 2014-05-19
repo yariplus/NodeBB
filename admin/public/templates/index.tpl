@@ -13,24 +13,24 @@
 	<div id="menu" class="menu">
 		<ul class="category active">
 			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
-			<li class="item active selected"><i class="fa fa-home"></i> Home</i></li>
-			<li class="item"><i class="fa fa-home"></i> Users</i></li>
-			<li class="item"><i class="fa fa-home"></i> Permissions</i></li>
-			<li class="item"><i class="fa fa-home"></i> Appearance</i></li>
+			<li data-page="Home" class="item"><i class="fa fa-home"></i> Home</i></li>
+			<li data-page="Users" class="item"><i class="fa fa-home"></i> Users</i></li>
+			<li data-page="Permissions" class="item"><i class="fa fa-home"></i> Permissions</i></li>
+			<li data-page="Appearance" class="item"><i class="fa fa-home"></i> Appearance</i></li>
 		</ul>
 		<ul class="category">
 			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
-			<li class="item"><i class="fa fa-home"></i> Home</i></li>
-			<li class="item"><i class="fa fa-home"></i> Users</i></li>
-			<li class="item"><i class="fa fa-home"></i> Permissions</i></li>
-			<li class="item"><i class="fa fa-home"></i> Appearance</i></li>
+			<li data-page="Home" class="item"><i class="fa fa-home"></i> Home</i></li>
+			<li data-page="Users" class="item"><i class="fa fa-home"></i> Users</i></li>
+			<li data-page="Permissions" class="item"><i class="fa fa-home"></i> Permissions</i></li>
+			<li data-page="Appearance" class="item"><i class="fa fa-home"></i> Appearance</i></li>
 		</ul>
 		<ul class="category">
 			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
-			<li class="item"><i class="fa fa-home"></i> Home</i></li>
-			<li class="item"><i class="fa fa-home"></i> Users</i></li>
-			<li class="item"><i class="fa fa-home"></i> Permissions</i></li>
-			<li class="item active"><i class="fa fa-home"></i> Appearance</i></li>
+			<li data-page="Home" class="item"><i class="fa fa-home"></i> Home</i></li>
+			<li data-page="Users" class="item"><i class="fa fa-home"></i> Users</i></li>
+			<li data-page="Permissions" class="item"><i class="fa fa-home"></i> Permissions</i></li>
+			<li data-page="Appearance" class="item"><i class="fa fa-home"></i> Appearance</i></li>
 		</ul>
 	</div>
 

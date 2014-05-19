@@ -5,9 +5,35 @@ var admin = {};
 		menu;
 
 
-	var windows = {};
+	var windows = {
+		opened: []
+	};
+
 	windows.init = function() {
 
+	};
+
+	windows.open = function(el) {
+		if (!el instanceof $) {
+			el = $('[data-page="' + el + '"]');
+		}
+
+		if (!el.length) {
+			console.error('Page does not exist: ' + el);
+			return false;
+		}
+
+		var page = el.attr('data-page'),
+			arrIndex = windows.opened.indexOf(page);
+
+		if (arrIndex === -1 || !el.hasClass('selected')) {
+			windows.opened.push(page);
+			$('#menu .item').removeClass('selected');
+			el.addClass('selected active');
+		} else {
+			windows.opened = windows.opened.splice(arrIndex, 1);
+			el.removeClass('selected active');
+		}
 	};
 
 
@@ -17,8 +43,12 @@ var admin = {};
 		canvas = canvas || $('#canvas');
 		menu = menu || $('#menu');
 
-		$('.menu .category .title').on('click', function() {
+		$('#menu .title').on('click', function() {
 			$(this).parent().toggleClass('active');
+		});
+
+		$('#menu .item').on('click', function() {
+			windows.open($(this));
 		});
 
 		/*templates.registerLoader(function(template, callback) {
