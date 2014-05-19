@@ -12,6 +12,7 @@ var admin = {},
 admin.css = null;
 
 admin.routeStaticDirectory = function(app) {
+	console.log('derp');
 	app.use(nconf.get('relative_path') + '/admin', express.static(path.join(__dirname, 'public'), {
 		maxAge: app.enabled('cache') ? 5184000000 : 0
 	}));
