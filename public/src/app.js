@@ -87,6 +87,7 @@ var socket,
 			socket.on('event:connect', function (data) {
 				app.username = data.username;
 				app.userslug = data.userslug;
+				app.userpicture = data.picture;
 				app.uid = data.uid;
 				app.isAdmin = data.isAdmin;
 

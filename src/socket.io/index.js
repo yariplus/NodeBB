@@ -80,7 +80,7 @@ Sockets.init = function(server) {
 
 						async.parallel({
 							user: function(next) {
-								user.getUserFields(uid, ['username', 'userslug'], next);
+								user.getUserFields(uid, ['username', 'userslug', 'picture'], next);
 							},
 							isAdmin: function(next) {
 								user.isAdministrator(uid, next);
@@ -90,6 +90,7 @@ Sockets.init = function(server) {
 								status: 1,
 								username: userData.user.username,
 								userslug: userData.user.userslug,
+								picture: userData.user.picture,
 								isAdmin: userData.isAdmin,
 								uid: uid
 							});
