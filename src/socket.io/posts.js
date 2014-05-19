@@ -19,11 +19,6 @@ var	async = require('async'),
 
 
 SocketPosts.reply = function(socket, data, callback) {
-
-	if (!socket.uid && !parseInt(meta.config.allowGuestPosting, 10)) {
-		return callback(new Error('[[error:not-logged-in]]'));
-	}
-
 	if(!data || !data.tid || !data.content) {
 		return callback(new Error('[[error:invalid-data]]'));
 	}
@@ -134,7 +129,7 @@ function sendNotificationToPostOwner(data, uid, notification) {
 SocketPosts.getRawPost = function(socket, pid, callback) {
 	async.waterfall([
 		function(next) {
-			privileges.posts.canRead(pid, socket.uid, next);
+			privileges.posts.can('read', pid, socket.uid, next);
 		},
 		function(canRead, next) {
 			if (!canRead) {

@@ -7,32 +7,59 @@
 		db = require('./database'),
 		utils = require('../public/src/utils'),
 
-		filterGroups = function(groups, options) {
-			// Remove system, hidden, or deleted groups from this list
-			if (groups && !options.showAllGroups) {
-				return groups.filter(function (group) {
-					if (group.deleted || (group.hidden && !group.system) || (!options.showSystemGroups && group.system)) {
-						return false;
+		ephemeralGroups = ['guests'],
+
+		internals = {
+			filterGroups: function(groups, options) {
+				// Remove system, hidden, or deleted groups from this list
+				if (groups && !options.showAllGroups) {
+					return groups.filter(function (group) {
+						if (group.deleted || (group.hidden && !group.system) || (!options.showSystemGroups && group.system)) {
+							return false;
+						} else {
+							return true;
+						}
+					});
+				} else {
+					return groups;
+				}
+			},
+			getEphemeralGroup: function(groupName, options, callback) {
+				Groups.exists(groupName, function(err, exists) {
+					if (!err && exists) {
+						Groups.get.apply(null, arguments);
 					} else {
-						return true;
+						callback(null, {
+							name: groupName,
+							description: '',
+							deleted: '0',
+							hidden: '0',
+							system: '1'
+						});
 					}
 				});
-			} else {
+			},
+			removeEphemeralGroups: function(groups) {
+				var x = groups.length;
+				while(x--) {
+					if (ephemeralGroups.indexOf(groups[x]) !== -1) {
+						groups.splice(x, 1);
+					}
+				}
+
 				return groups;
 			}
 		};
 
 	Groups.list = function(options, callback) {
 		db.getSetMembers('groups', function (err, groupNames) {
-			if (groupNames.length > 0) {
-				async.map(groupNames, function (groupName, next) {
-					Groups.get(groupName, options, next);
-				}, function (err, groups) {
-					callback(err, filterGroups(groups, options));
-				});
-			} else {
-				callback(null, []);
-			}
+			groupNames = groupNames.concat(ephemeralGroups);
+
+			async.map(groupNames, function (groupName, next) {
+				Groups.get(groupName, options, next);
+			}, function (err, groups) {
+				callback(err, internals.filterGroups(groups, options));
+			});
 		});
 	};
 
@@ -42,15 +69,19 @@
 
 		async.parallel({
 			base: function (next) {
-				db.getObject('group:' + groupName, function(err, groupObj) {
-					if (err) {
-						next(err);
-					} else if (!groupObj) {
-						next('group-not-found');
-					} else {
-						next(err, groupObj);
-					}
-				});
+				if (ephemeralGroups.indexOf(groupName) === -1) {
+					db.getObject('group:' + groupName, function(err, groupObj) {
+						if (err) {
+							next(err);
+						} else if (!groupObj) {
+							next('group-not-found');
+						} else {
+							next(err, groupObj);
+						}
+					});
+				} else {
+					internals.getEphemeralGroup(groupName, options, next);
+				}
 			},
 			users: function (next) {
 				db.getSetMembers('group:' + groupName + ':members', function (err, uids) {
@@ -103,7 +134,7 @@
 				async.map(groups, function(groupName, next) {
 					Groups.get(groupName, options, next);
 				}, function(err, groups) {
-					callback(err, filterGroups(groups, options));
+					callback(err, internals.filterGroups(groups, options));
 				});
 			});
 		} else {
@@ -116,9 +147,14 @@
 	};
 
 	Groups.isMemberOfGroupList = function(uid, groupListKey, callback) {
-		db.getSetMembers('group:' + groupListKey + ':members', function(err, gids) {
-			async.some(gids, function(gid, next) {
-				Groups.isMember(uid, gid, function(err, isMember) {
+		db.getSetMembers('group:' + groupListKey + ':members', function(err, groupNames) {
+			groupNames = internals.removeEphemeralGroups(groupNames);
+			if (groupNames.length === 0) {
+				return callback(null, null);
+			}
+
+			async.some(groupNames, function(groupName, next) {
+				Groups.isMember(uid, groupName, function(err, isMember) {
 					if (!err && isMember) {
 						next(true);
 					} else {

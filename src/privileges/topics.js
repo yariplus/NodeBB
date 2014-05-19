@@ -55,47 +55,13 @@ module.exports = function(privileges) {
 		});
 	};
 
-	privileges.topics.canRead = function(tid, uid, callback) {
+	privileges.topics.can = function(privilege, tid, uid, callback) {
 		topics.getTopicField(tid, 'cid', function(err, cid) {
 			if (err) {
 				return callback(err);
 			}
 
-			privileges.categories.canRead(cid, uid, callback);
-		});
-	};
-
-	privileges.topics.canCreate = function(cid, uid, callback) {
-		helpers.some([
-			function(next) {
-				helpers.allowedTo('topics:create', uid, cid, next);
-			},
-			function(next) {
-				user.isModerator(uid, cid, next);
-			},
-			function(next) {
-				user.isAdministrator(uid, next);
-			}
-		], callback);
-	};
-
-	privileges.topics.canReply = function(tid, uid, callback) {
-		topics.getTopicField(tid, 'cid', function(err, cid) {
-			if (err) {
-				return callback(err);
-			}
-
-			helpers.some([
-				function(next) {
-					helpers.allowedTo('topics:reply', uid, cid, next);
-				},
-				function(next) {
-					user.isModerator(uid, cid, next);
-				},
-				function(next) {
-					user.isAdministrator(uid, next);
-				}
-			], callback);
+			privileges.categories.can(privilege, cid, uid, callback);
 		});
 	};
 
