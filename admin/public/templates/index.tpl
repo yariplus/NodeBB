@@ -11,26 +11,35 @@
 </head>
 <body id="canvas">
 	<div id="menu">
-		<ul class="category active">
-			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
-			<li data-page="Home" class="item"><i class="fa fa-home"></i> Home</i></li>
-			<li data-page="Users" class="item"><i class="fa fa-home"></i> Users</i></li>
-			<li data-page="Permissions" class="item"><i class="fa fa-home"></i> Permissions</i></li>
-			<li data-page="Appearance" class="item"><i class="fa fa-home"></i> Appearance</i></li>
+		<ul class="category">
+			<li class="title">General <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
+			<li data-page="general/home" class="item"><i class="fa fa-fw fa-home"></i> Home</i></li>
+			<li data-page="general/settings" class="item"><i class="fa fa-fw fa-cogs"></i> Settings</i></li>
+			<li data-page="general/languages" class="item"><i class="fa fa-fw fa-comments-o"></i> Languages</i></li>
+			<li data-page="general/sounds" class="item"><i class="fa fa-fw fa-volume-up"></i> Sounds</i></li>
 		</ul>
 		<ul class="category">
 			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
-			<li data-page="Home" class="item"><i class="fa fa-home"></i> Home</i></li>
-			<li data-page="Users" class="item"><i class="fa fa-home"></i> Users</i></li>
-			<li data-page="Permissions" class="item"><i class="fa fa-home"></i> Permissions</i></li>
-			<li data-page="Appearance" class="item"><i class="fa fa-home"></i> Appearance</i></li>
+			<li data-page="manage/categories" class="item"><i class="fa fa-fw fa-folder"></i> Categories</i></li>
+			<li data-page="manage/users" class="item"><i class="fa fa-fw fa-user"></i> Users</i></li>
+			<li data-page="manage/groups" class="item"><i class="fa fa-fw fa-group"></i> Groups</i></li>
 		</ul>
 		<ul class="category">
-			<li class="title">Forum Management <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
-			<li data-page="Home" class="item"><i class="fa fa-home"></i> Home</i></li>
-			<li data-page="Users" class="item"><i class="fa fa-home"></i> Users</i></li>
-			<li data-page="Permissions" class="item"><i class="fa fa-home"></i> Permissions</i></li>
-			<li data-page="Appearance" class="item"><i class="fa fa-home"></i> Appearance</i></li>
+			<li class="title">Appearance <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
+			<li data-page="appearance/themes" class="item"><i class="fa fa-fw fa-th"></i> Themes</i></li>
+			<li data-page="appearance/skins" class="item"><i class="fa fa-fw fa-home"></i> Skins</i></li>
+			<li data-page="appearance/customize" class="item"><i class="fa fa-fw fa-home"></i> Customize</i></li>
+		</ul>
+		<ul class="category">
+			<li class="title">Extensibility <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
+			<li data-page="extend/plugins" class="item"><i class="fa fa-fw fa-code-fork"></i> Plugins</i></li>
+			<li data-page="extend/widgets" class="item"><i class="fa fa-fw fa-home"></i> Widgets</i></li>
+		</ul>
+		<ul class="category">
+			<li class="title">Advanced <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
+			<li data-page="advanced/events" class="item"><i class="fa fa-fw fa-calendar-o"></i> Events</i></li>
+			<li data-page="advanced/database" class="item"><i class="fa fa-fw fa-hdd-o"></i> Database</i></li>
+			<li data-page="advanced/logger" class="item"><i class="fa fa-fw fa-th"></i> Logger</i></li>
 		</ul>
 	</div>
 
