@@ -47,6 +47,7 @@ var admin = {};
 		} else {
 			windows.opened.splice(arrIndex, 1);
 			el.removeClass('selected active');
+			windows.open(windows.opened[windows.opened.length - 1]);
 		}
 
 		localStorage.setItem('acp:windows:opened', JSON.stringify(windows.opened));
