@@ -23,6 +23,11 @@ var admin = {};
 		}
 	};
 
+
+	windows.build = function(page) {
+		
+	};
+
 	windows.open = function(el) {
 		if (!(el instanceof $)) {
 			el = $('[data-page="' + el + '"]');
@@ -44,6 +49,8 @@ var admin = {};
 			$('#menu .item').removeClass('selected');
 			el.addClass('selected active');
 			el.parents('.category').addClass('active');
+
+			windows.build(page);
 		} else {
 			windows.opened.splice(arrIndex, 1);
 			el.removeClass('selected active');
