@@ -16,19 +16,17 @@ var admin = {};
 		var opened = JSON.parse(localStorage.getItem('acp:windows:opened'));
 		
 		if (!opened || !opened.length) {
-			windows.open('general/home');
+			windows.toggle('general/home');
 		} else {
 			for (var o in opened) {
 				if (opened.hasOwnProperty(o)) {
-					windows.open(opened[o]);
+					windows.toggle(opened[o]);
 				}
 			}
 		}
 	};
 
-	function fixWindowPosition(el) {
-		windows.zindex ++;
-
+	function fixPosition(el) {
 		do {
 			position = el.position();
 			
@@ -51,6 +49,11 @@ var admin = {};
 			windows.positions[position.left][position.top] = true;
 		}
 
+		bringToFront(el);
+	}
+
+	function bringToFront(el) {
+		windows.zindex ++;
 		el.css('zIndex', windows.zindex);
 		$('.gui').css('zIndex', windows.zindex + 1);
 	}
@@ -59,7 +62,7 @@ var admin = {};
 		var existing = $('[data-window="' + page + '"]');
 		if (existing.length) {
 			existing.show();
-			fixWindowPosition(existing);
+			fixPosition(existing);
 			return;
 		}
 
@@ -67,9 +70,18 @@ var admin = {};
 			var el = $(html), position;
 			$('#canvas').append(el);
 
-			fixWindowPosition(el);
+			fixPosition(el);
 
 			el.attr('data-window', page);
+
+			el.find('.btn-close').on('click', function() {
+				windows.toggle($(this).parents('[data-window]').attr('data-window'), 'close');
+			});
+
+			el.on('click', function() {
+				console.log('test');
+				bringToFront($(this));
+			});
 		});
 	};
 
@@ -81,20 +93,15 @@ var admin = {};
 		el.hide();
 	}
 
-	windows.open = function(el) {
+	windows.toggle = function(el, mode) {
 		if (!(el instanceof $)) {
 			el = $('[data-page="' + el + '"]');
-		}
-
-		if (!el.length) {
-			console.error('Page does not exist: ' + el);
-			return false;
 		}
 
 		var page = el.attr('data-page'),
 			arrIndex = windows.opened.indexOf(page);
 
-		if (arrIndex === -1 || !el.hasClass('selected')) {
+		if ((arrIndex === -1 || !el.hasClass('selected')) && mode !== 'close' || mode === 'open') {
 			if (arrIndex === -1) {
 				windows.opened.push(page);	
 				windows.build(page);
@@ -106,7 +113,7 @@ var admin = {};
 		} else {
 			windows.opened.splice(arrIndex, 1);
 			el.removeClass('selected active');
-			windows.open(windows.opened[windows.opened.length - 1]);
+			windows.toggle(windows.opened[windows.opened.length - 1], 'open');
 			windows.hide(page);
 		}
 
@@ -127,7 +134,7 @@ var admin = {};
 		});
 
 		$('#menu .item').on('click', function() {
-			windows.open($(this));
+			windows.toggle($(this));
 		});
 
 		templates.registerLoader(function(template, callback) {

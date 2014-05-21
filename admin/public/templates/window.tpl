@@ -1,6 +1,6 @@
 <div class="window panel">
 	<div class="panel-heading pointer">
-		<h3 class="panel-title">Panel title <span class="pull-right pointer"><i class="fa fa-circle"></i></span></h3>
+		<h3 class="panel-title">Panel title <span class="pull-right pointer"><i class="fa fa-circle btn-close"></i></span></h3>
 	</div>
 	<div class="panel-body">
 		<nav class="navbar navbar-inverse" role="navigation">
