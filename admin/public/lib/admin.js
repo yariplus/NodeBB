@@ -25,7 +25,9 @@ var admin = {};
 
 
 	windows.build = function(page) {
-		
+		templates.parse('window', {}, function(html) {
+			$('#canvas').append($(html));
+		});
 	};
 
 	windows.open = function(el) {
@@ -77,12 +79,12 @@ var admin = {};
 			windows.open($(this));
 		});
 
-		/*templates.registerLoader(function(template, callback) {
+		templates.registerLoader(function(template, callback) {
 			if (templates.cache[template]) {
 				callback(templates.cache[template]);
 			} else {
 				$.ajax({
-					url: RELATIVE_PATH + '/templates/' + template + '.tpl' + (config['cache-buster'] ? '?v=' + config['cache-buster'] : ''),
+					url: RELATIVE_PATH + '/admin/templates/' + template + '.tpl' + (config['cache-buster'] ? '?v=' + config['cache-buster'] : ''),
 					type: 'GET',
 					success: function(data) {
 						callback(data.toString());
@@ -92,7 +94,9 @@ var admin = {};
 					}
 				});
 			}
-		});*/
+		});
+
+
 
 		$(window).on('action:connected', onConnect);
 
