@@ -8,7 +8,8 @@ var admin = {};
 
 	var windows = {
 		opened: [],
-		positions: []
+		positions: [],
+		zindex: 0
 	};
 
 	windows.init = function() {
@@ -26,6 +27,8 @@ var admin = {};
 	};
 
 	function fixWindowPosition(el) {
+		windows.zindex ++;
+
 		do {
 			position = el.position();
 			
@@ -47,6 +50,9 @@ var admin = {};
 			windows.positions[position.left] = [];
 			windows.positions[position.left][position.top] = true;
 		}
+
+		el.css('zIndex', windows.zindex);
+		$('.gui').css('zIndex', windows.zindex + 1);
 	}
 
 	windows.build = function(page) {

@@ -10,7 +10,7 @@
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body id="canvas">
-	<div id="menu">
+	<div id="menu" class="gui">
 		<ul class="category">
 			<li class="title">General <span class="pull-right"><i class="fa fa-caret-down"></i></span></li>
 			<li data-page="general/home" class="item"><i class="fa fa-fw fa-home"></i> Home</i></li>
@@ -43,7 +43,7 @@
 		</ul>
 	</div>
 
-	<div id="profile">
+	<div id="profile" class="gui">
 		<img class="avatar img-circle" />
 	</div>
 
