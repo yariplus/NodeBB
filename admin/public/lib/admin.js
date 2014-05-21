@@ -25,36 +25,55 @@ var admin = {};
 		}
 	};
 
+	function fixWindowPosition(el) {
+		do {
+			position = el.position();
+			
+			if (windows.positions[position.left]) {
+				if (windows.positions[position.left][position.top] === true) {
+					el.css({top: position.top + WINDOW_OFFSET, left: position.left + WINDOW_OFFSET})
+				} else {
+					break;
+				}
+			} else {
+				break;
+			}
+		} while(true);
+
+		position = el.position();
+		if (windows.positions[position.left]) {
+			windows.positions[position.left][position.top] = true;
+		} else {
+			windows.positions[position.left] = [];
+			windows.positions[position.left][position.top] = true;
+		}
+	}
 
 	windows.build = function(page) {
+		var existing = $('[data-window="' + page + '"]');
+		if (existing.length) {
+			existing.show();
+			fixWindowPosition(existing);
+			return;
+		}
+
 		templates.parse('window', {}, function(html) {
 			var el = $(html), position;
 			$('#canvas').append(el);
 
-			do {
-				position = el.position();
-				
-				if (windows.positions[position.left]) {
-					if (windows.positions[position.left][position.top]) {
-						el.css({top: position.top + WINDOW_OFFSET, left: position.left + WINDOW_OFFSET})
-					} else {
-						break;
-					}
-				} else {
-					break;
-				}
-			} while(true);
+			fixWindowPosition(el);
 
-			position = el.position();
-			if (windows.positions[position.left]) {
-				windows.positions[position.left][position.top] = true;
-			} else {
-				windows.positions[position.left] = [];
-				windows.positions[position.left][position.top] = true;
-			}
-
+			el.attr('data-window', page);
 		});
 	};
+
+	windows.hide = function(page) {
+		var el = $('[data-window="' + page + '"]'),
+			position = el.position();
+
+		windows.positions[position.left][position.top] = false;
+		el.hide();
+	}
 
 	windows.open = function(el) {
 		if (!(el instanceof $)) {
@@ -72,17 +91,17 @@ var admin = {};
 		if (arrIndex === -1 || !el.hasClass('selected')) {
 			if (arrIndex === -1) {
 				windows.opened.push(page);	
+				windows.build(page);
 			}
 			
 			$('#menu .item').removeClass('selected');
 			el.addClass('selected active');
 			el.parents('.category').addClass('active');
-
-			windows.build(page);
 		} else {
 			windows.opened.splice(arrIndex, 1);
 			el.removeClass('selected active');
 			windows.open(windows.opened[windows.opened.length - 1]);
+			windows.hide(page);
 		}
 
 		localStorage.setItem('acp:windows:opened', JSON.stringify(windows.opened));
