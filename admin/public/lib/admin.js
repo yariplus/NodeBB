@@ -4,9 +4,11 @@ var admin = {};
 	var canvas,
 		menu;
 
+	var WINDOW_OFFSET = 20;
 
 	var windows = {
-		opened: []
+		opened: [],
+		positions: []
 	};
 
 	windows.init = function() {
@@ -26,7 +28,31 @@ var admin = {};
 
 	windows.build = function(page) {
 		templates.parse('window', {}, function(html) {
-			$('#canvas').append($(html));
+			var el = $(html), position;
+			$('#canvas').append(el);
+
+			do {
+				position = el.position();
+				
+				if (windows.positions[position.left]) {
+					if (windows.positions[position.left][position.top]) {
+						el.css({top: position.top + WINDOW_OFFSET, left: position.left + WINDOW_OFFSET})
+					} else {
+						break;
+					}
+				} else {
+					break;
+				}
+			} while(true);
+
+			position = el.position();
+			if (windows.positions[position.left]) {
+				windows.positions[position.left][position.top] = true;
+			} else {
+				windows.positions[position.left] = [];
+				windows.positions[position.left][position.top] = true;
+			}
+
 		});
 	};
 
