@@ -24,6 +24,6 @@
 			</div>
 		</nav>
 
-		Panel content
+		<div class="content"></div>
 	</div>
 </div>

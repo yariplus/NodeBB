@@ -68,6 +68,10 @@ var admin = {};
 						zIndex: instances[i].zIndex
 					});
 
+					el.find('.panel-body > .content').css({
+						height: instances[i].height - 145 + 'px'
+					});
+
 					if (instances[i].maximized) {
 						maximizeWindow(el);
 					}
@@ -109,6 +113,10 @@ var admin = {};
 
 	function startTracking(el) {
 		el.on('resize', function() {
+			$(this).find('.panel-body > .content').css({
+				height: $(this).height() - 145 + 'px'
+			});
+
 			setInstanceDimensions($(this));
 			saveInstances();
 		});
@@ -201,7 +209,7 @@ var admin = {};
 
 			$.get(RELATIVE_PATH + '/api/admin/' + page, function(data) {
 				templates.parse(page, data, function(html) {
-					el.find('.panel-body').html(html);
+					el.find('.content').html(html);
 					el.removeClass('invisible');
 
 					bringToFront(el);
