@@ -142,7 +142,7 @@ define(['uploader'], function(uploader) {
 			var $inputEl = $(inputEl),
 				previewEl = $inputEl.parents('[data-cid]').find('.preview-box');
 
-			admin.enableColorPicker($inputEl, function(hsb, hex) {
+			acp.enableColorPicker($inputEl, function(hsb, hex) {
 				if ($inputEl.attr('data-name') === 'bgColor') {
 					previewEl.css('background', '#' + hex);
 				} else if ($inputEl.attr('data-name') === 'color') {
