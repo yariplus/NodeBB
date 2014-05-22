@@ -40,7 +40,7 @@ var admin = {};
 
 		windows.instances = instances;
 		
-		acp.loadTemplate('window', function() {
+		acp.loadTemplate('components/window', function() {
 			if (!opened || !opened.length) {
 				windows.toggle('general/home');
 			} else {
@@ -123,7 +123,7 @@ var admin = {};
 		if (!el.length) {
 			return;
 		}
-		
+
 		var position = el.position();
 
 		windows.instances[el.attr('data-window')] = windows.instances[el.attr('data-window')] || {};
@@ -169,7 +169,7 @@ var admin = {};
 			return;
 		}
 
-		templates.parse('window', {title: $('[data-page="' + page + '"]').html()}, function(html) {
+		templates.parse('components/window', {title: $('[data-page="' + page + '"]').html()}, function(html) {
 			var el = $(html), position;
 			$('#canvas').append(el);
 
