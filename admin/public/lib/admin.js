@@ -114,7 +114,7 @@ var admin = {};
 
 			el.draggable({
 				handle: ".panel-heading"
-			});
+			}).resizable();
 
 			bringToFront(el);
 		});

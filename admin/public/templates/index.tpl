@@ -6,8 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>NodeBB ACP</title>
 
+	<link href="http://code.jquery.com/ui/1.10.4/themes/black-tie/jquery-ui.css" rel="stylesheet">
 	<link href="../admin/stylesheet.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	
 </head>
 <body id="canvas">
 	<div id="menu" class="gui">
