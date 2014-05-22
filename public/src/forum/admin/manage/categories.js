@@ -7,6 +7,17 @@ define(['uploader'], function(uploader) {
 	Categories.init = function() {
 		var modified_categories = {};
 
+		windows.addDropdownMenuItems('manage/categories', [
+			{
+				title: 'New Category',
+				callback: showCreateCategoryModal
+			},
+			{
+				title: 'Revert Changes',
+				callback: ajaxify.refresh
+			}
+		]);
+
 		function modified(el) {
 			var cid = $(el).parents('li').attr('data-cid');
 			if(cid) {
@@ -183,7 +194,6 @@ define(['uploader'], function(uploader) {
 			});
 
 
-			$('#addNew').on('click', showCreateCategoryModal);
 			$('#create-category-btn').on('click', createNewCategory);
 
 			$('#entry-container').on('click', '.icon', function(ev) {
@@ -249,10 +259,6 @@ define(['uploader'], function(uploader) {
 				preview.css('background', bgColor);
 
 				$(this).addClass('hide').hide();
-			});
-
-			$('#revertChanges').on('click', function() {
-				ajaxify.refresh();
 			});
 
 			setupEditTargets();

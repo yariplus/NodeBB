@@ -1,5 +1,11 @@
 var admin = {},
-	acp = {};
+	acp = {},
+	windows = {
+		opened: [],
+		instances: {},
+		positions: [],
+		zindex: 0
+	};
 
 (function() {
 	var canvas,
@@ -41,12 +47,7 @@ var admin = {},
 
 	var WINDOW_OFFSET = 20;
 
-	var windows = {
-		opened: [],
-		instances: {},
-		positions: [],
-		zindex: 0
-	};
+	
 
 	windows.init = function() {
 		var opened = JSON.parse(localStorage.getItem('acp:windows:opened')),
@@ -93,6 +94,28 @@ var admin = {},
 				}
 			}
 		});
+	};
+
+	windows.addDropdownMenuItems = function(window, items) {
+		var menu = $('[data-window="' + window + '"] .window-menu .dropdown-menu');
+
+		for (var i in items) {
+			if (items.hasOwnProperty(i)) {
+				var item = items[i],
+					list = $('<li><a href="' + (item.href ? item.href : '#') + '">' + item.title + '</a></li>');
+
+				list.find('a').on('click', function(ev) {
+					if (item.callback) {
+						item.callback();
+						ev.preventDefault();
+						ev.stopPropagation();
+						return false;
+					}
+				});
+
+				menu.append(list).parents('.navbar-nav').removeClass('hidden');
+			}
+		}
 	};
 
 	function fixPosition(el) {
