@@ -16,7 +16,7 @@ function generalRoutes(app, middleware, controllers) {
 
 function manageRoutes(app, middleware, controllers) {
 	app.namespace('/api/admin/manage', function() {
-		app.get('/categories/active', controllers.admin.categories.active);
+		app.get('/categories', controllers.admin.categories.active);
 		app.get('/categories/disabled', controllers.admin.categories.disabled);
 
 		app.get('/users/search', controllers.admin.users.search);
