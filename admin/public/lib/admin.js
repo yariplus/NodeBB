@@ -199,12 +199,14 @@ var admin = {};
 				maximizeWindow($(this));
 			});
 
-			templates.parse(page, {}, function(html) {
-				el.find('.panel-body').html(html);
-				el.removeClass('invisible');
+			$.get(RELATIVE_PATH + '/api/admin/' + page, function(data) {
+				templates.parse(page, data, function(html) {
+					el.find('.panel-body').html(html);
+					el.removeClass('invisible');
 
-				bringToFront(el);
-				startTracking(el);
+					bringToFront(el);
+					startTracking(el);
+				});
 			});
 		});
 	};
