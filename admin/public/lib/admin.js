@@ -151,7 +151,7 @@ var admin = {};
 		setInstanceDimensions(el);
 
 		if (el.hasClass('maximized')) {
-			el.resizable().draggable({handle: ".panel-heading"}).removeClass('maximized');
+			el.resizable().draggable({handle: '.panel-heading.draggable'}).removeClass('maximized');
 			windows.instances[el.attr('data-window')].maximized = false;
 			setInstanceDimensions(el);
 		} else {
@@ -200,7 +200,7 @@ var admin = {};
 			});
 
 			el.draggable({
-				handle: ".panel-heading"
+				handle: '.panel-heading.draggable'
 			}).resizable();
 
 			el.find('.panel-heading').on('dblclick', function() {
@@ -210,10 +210,13 @@ var admin = {};
 			$.get(RELATIVE_PATH + '/api/admin/' + page, function(data) {
 				templates.parse(page, data, function(html) {
 					el.find('.content').html(html);
-					el.removeClass('invisible');
 
-					bringToFront(el);
-					startTracking(el);
+					ajaxify.loadScript('admin/' + page, function() {
+						el.removeClass('invisible');
+
+						bringToFront(el);
+						startTracking(el);
+					});
 				});
 			});
 		});

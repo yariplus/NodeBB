@@ -1,5 +1,5 @@
 <div class="window panel">
-	<div class="panel-heading pointer">
+	<div class="panel-heading draggable pointer">
 		<h3 class="panel-title">{title} <span class="pull-right pointer"><i class="fa fa-circle btn-close"></i></span></h3>
 	</div>
 	<div class="panel-body">
