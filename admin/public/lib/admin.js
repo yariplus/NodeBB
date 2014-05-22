@@ -173,6 +173,8 @@ var admin = {};
 			var el = $(html), position;
 			$('#canvas').append(el);
 
+			el.addClass('invisible');
+
 			fixPosition(el);
 
 			el.attr('data-window', page);
@@ -194,8 +196,13 @@ var admin = {};
 				maximizeWindow($(this));
 			});
 
-			bringToFront(el);
-			startTracking(el);
+			templates.parse(page, {}, function(html) {
+				el.find('.panel-body').html(html);
+				el.removeClass('invisible');
+
+				bringToFront(el);
+				startTracking(el);
+			});
 		});
 	};
 
