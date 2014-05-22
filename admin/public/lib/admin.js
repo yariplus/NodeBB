@@ -1,10 +1,9 @@
-var admin = {};
+var admin = {},
+	acp = {};
 
 (function() {
 	var canvas,
 		menu;
-
-	var acp =  {};
 
 	acp.loadTemplate = function(template, callback) {
 		if (templates.cache[template]) {
