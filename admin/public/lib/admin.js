@@ -116,6 +116,16 @@ var admin = {};
 				handle: ".panel-heading"
 			}).resizable();
 
+			el.on('dblclick', function() {
+				var $this = $(this);
+
+				if ($this.hasClass('maximized')) {
+					el.resizable().removeClass('maximized');
+				} else {
+					el.resizable('destroy').addClass('maximized');
+				}
+			});
+
 			bringToFront(el);
 		});
 	};
