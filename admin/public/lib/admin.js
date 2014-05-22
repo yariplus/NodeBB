@@ -179,8 +179,11 @@ var admin = {};
 
 			el.attr('data-window', page);
 
-			el.find('.btn-close').on('click', function() {
+			el.find('.btn-close').on('click', function(ev) {
 				windows.toggle($(this).parents('[data-window]').attr('data-window'), 'close');
+				ev.stopPropagation();
+				ev.preventDefault();
+				return false;
 			});
 
 			el.on('mousedown', function() {
@@ -192,7 +195,7 @@ var admin = {};
 				handle: ".panel-heading"
 			}).resizable();
 
-			el.on('dblclick', function() {
+			el.find('.panel-heading').on('dblclick', function() {
 				maximizeWindow($(this));
 			});
 
