@@ -215,7 +215,10 @@ var admin = {};
 		var el = $('[data-window="' + page + '"]'),
 			position = el.position();
 
-		windows.positions[position.left][position.top] = false;
+		if (windows.positions[position.left]) {
+			windows.positions[position.left][position.top] = false;	
+		}
+		
 		el.addClass('hidden');
 	}
 
