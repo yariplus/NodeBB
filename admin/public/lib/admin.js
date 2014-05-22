@@ -28,13 +28,17 @@ var admin = {};
 
 	var windows = {
 		opened: [],
+		instances: {},
 		positions: [],
 		zindex: 0
 	};
 
 	windows.init = function() {
 		var opened = JSON.parse(localStorage.getItem('acp:windows:opened')),
+			instances = JSON.parse(localStorage.getItem('acp:windows:instances')),
 			focused = localStorage.getItem('acp:windows:focused');
+
+		windows.instances = instances;
 		
 		acp.loadTemplate('window', function() {
 			if (!opened || !opened.length) {
@@ -46,12 +50,29 @@ var admin = {};
 					}
 				}
 			}
-
 			
 			if (focused) {
 				windows.toggle(focused, 'open');
 				bringToFront($('[data-window="' + focused + '"]'));
-			}			
+			}
+
+			for (var i in instances) {
+				if (instances.hasOwnProperty(i)) {
+					var el = $('[data-window="' + i + '"]');
+
+					el.css({
+						width: instances[i].width + 'px',
+						height: instances[i].height + 'px',
+						top: instances[i].top + 'px',
+						left: instances[i].left + 'px',
+						zIndex: instances[i].zIndex
+					});
+
+					if (instances[i].maximized) {
+						maximizeWindow(el);
+					}
+				}
+			}
 		});
 	};
 
@@ -86,16 +107,69 @@ var admin = {};
 		localStorage.setItem('acp:windows:focused', el.attr('data-window'));
 	}
 
+	function startTracking(el) {
+		el.on('resize', function() {
+			setInstanceDimensions($(this));
+			saveInstances();
+		});
+
+		el.on('drag', function() {
+			setInstanceDimensions($(this));
+			saveInstances();
+		});
+	}
+
+	function setInstanceDimensions(el) {
+		if (!el.length) {
+			return;
+		}
+		
+		var position = el.position();
+
+		windows.instances[el.attr('data-window')] = windows.instances[el.attr('data-window')] || {};
+
+		windows.instances[el.attr('data-window')].width = el.width();
+		windows.instances[el.attr('data-window')].height = el.height();
+		windows.instances[el.attr('data-window')].top = position.top;
+		windows.instances[el.attr('data-window')].left = position.left;
+		windows.instances[el.attr('data-window')].zIndex = el.css('zIndex');
+	}
+
+	function saveInstances() {
+		localStorage.setItem('acp:windows:instances', JSON.stringify(windows.instances));
+	}
+
+	function maximizeWindow(el) {
+		setInstanceDimensions(el);
+
+		if (el.hasClass('maximized')) {
+			el.resizable().draggable({handle: ".panel-heading"}).removeClass('maximized');
+			windows.instances[el.attr('data-window')].maximized = false;
+			setInstanceDimensions(el);
+		} else {
+			el.resizable('destroy').draggable('destroy').addClass('maximized');
+			windows.instances[el.attr('data-window')].maximized = true;
+		}
+
+		var zindex = el.css('zIndex');
+		windows.zindex = windows.zindex < zindex ? zindex : windows.zindex;
+		$('.gui').css('zIndex', windows.zindex + 1);
+		
+		saveInstances();
+	}
+
 	windows.build = function(page) {
 		var existing = $('[data-window="' + page + '"]');
 		if (existing.length) {
-			existing.show();
+			existing.removeClass('hidden');
 			fixPosition(existing);
 			bringToFront(existing);
+
+			startTracking(existing);
 			return;
 		}
 
-		templates.parse('window', {title: page}, function(html) {
+		templates.parse('window', {title: $('[data-page="' + page + '"]').html()}, function(html) {
 			var el = $(html), position;
 			$('#canvas').append(el);
 
@@ -117,16 +191,11 @@ var admin = {};
 			}).resizable();
 
 			el.on('dblclick', function() {
-				var $this = $(this);
-
-				if ($this.hasClass('maximized')) {
-					el.resizable().removeClass('maximized');
-				} else {
-					el.resizable('destroy').addClass('maximized');
-				}
+				maximizeWindow($(this));
 			});
 
 			bringToFront(el);
+			startTracking(el);
 		});
 	};
 
@@ -135,7 +204,7 @@ var admin = {};
 			position = el.position();
 
 		windows.positions[position.left][position.top] = false;
-		el.hide();
+		el.addClass('hidden');
 	}
 
 	windows.toggle = function(el, mode) {
@@ -146,6 +215,9 @@ var admin = {};
 		var page = el.attr('data-page'),
 			arrIndex = windows.opened.indexOf(page);
 
+		if (!page) {
+			return;
+		}
 
 		if ((arrIndex === -1 || !el.hasClass('selected')) && mode !== 'close' || mode === 'open') {
 			if (arrIndex === -1) {
