@@ -4,6 +4,26 @@ var admin = {};
 	var canvas,
 		menu;
 
+	var acp =  {};
+
+	acp.loadTemplate = function(template, callback) {
+		if (templates.cache[template]) {
+			callback(templates.cache[template]);
+		} else {
+			$.ajax({
+				url: RELATIVE_PATH + '/admin/templates/' + template + '.tpl' + (config['cache-buster'] ? '?v=' + config['cache-buster'] : ''),
+				type: 'GET',
+				success: function(data) {
+					templates.cache[template] = data.toString();
+					callback(data.toString());
+				},
+				error: function(error) {
+					throw new Error("Unable to load template: " + template + " (" + error.statusText + ")");
+				}
+			});
+		}
+	};
+
 	var WINDOW_OFFSET = 20;
 
 	var windows = {
@@ -13,17 +33,26 @@ var admin = {};
 	};
 
 	windows.init = function() {
-		var opened = JSON.parse(localStorage.getItem('acp:windows:opened'));
+		var opened = JSON.parse(localStorage.getItem('acp:windows:opened')),
+			focused = localStorage.getItem('acp:windows:focused');
 		
-		if (!opened || !opened.length) {
-			windows.toggle('general/home');
-		} else {
-			for (var o in opened) {
-				if (opened.hasOwnProperty(o)) {
-					windows.toggle(opened[o]);
+		acp.loadTemplate('window', function() {
+			if (!opened || !opened.length) {
+				windows.toggle('general/home');
+			} else {
+				for (var o in opened) {
+					if (opened.hasOwnProperty(o)) {
+						windows.toggle(opened[o]);
+					}
 				}
 			}
-		}
+
+			
+			if (focused) {
+				windows.toggle(focused, 'open');
+				bringToFront($('[data-window="' + focused + '"]'));
+			}			
+		});
 	};
 
 	function fixPosition(el) {
@@ -48,14 +77,13 @@ var admin = {};
 			windows.positions[position.left] = [];
 			windows.positions[position.left][position.top] = true;
 		}
-
-		bringToFront(el);
 	}
 
 	function bringToFront(el) {
 		windows.zindex ++;
 		el.css('zIndex', windows.zindex);
 		$('.gui').css('zIndex', windows.zindex + 1);
+		localStorage.setItem('acp:windows:focused', el.attr('data-window'));
 	}
 
 	windows.build = function(page) {
@@ -63,10 +91,11 @@ var admin = {};
 		if (existing.length) {
 			existing.show();
 			fixPosition(existing);
+			bringToFront(existing);
 			return;
 		}
 
-		templates.parse('window', {}, function(html) {
+		templates.parse('window', {title: page}, function(html) {
 			var el = $(html), position;
 			$('#canvas').append(el);
 
@@ -79,9 +108,11 @@ var admin = {};
 			});
 
 			el.on('click', function() {
-				console.log('test');
+				windows.toggle($(this).attr('data-window'), 'open');
 				bringToFront($(this));
 			});
+
+			bringToFront(el);
 		});
 	};
 
@@ -101,10 +132,13 @@ var admin = {};
 		var page = el.attr('data-page'),
 			arrIndex = windows.opened.indexOf(page);
 
+
 		if ((arrIndex === -1 || !el.hasClass('selected')) && mode !== 'close' || mode === 'open') {
 			if (arrIndex === -1) {
 				windows.opened.push(page);	
 				windows.build(page);
+			} else {
+				bringToFront($('[data-window="' + page + '"]'));
 			}
 			
 			$('#menu .item').removeClass('selected');
@@ -137,22 +171,7 @@ var admin = {};
 			windows.toggle($(this));
 		});
 
-		templates.registerLoader(function(template, callback) {
-			if (templates.cache[template]) {
-				callback(templates.cache[template]);
-			} else {
-				$.ajax({
-					url: RELATIVE_PATH + '/admin/templates/' + template + '.tpl' + (config['cache-buster'] ? '?v=' + config['cache-buster'] : ''),
-					type: 'GET',
-					success: function(data) {
-						callback(data.toString());
-					},
-					error: function(error) {
-						throw new Error("Unable to load template: " + template + " (" + error.statusText + ")");
-					}
-				});
-			}
-		});
+		templates.registerLoader(acp.loadTemplate);
 
 
 
