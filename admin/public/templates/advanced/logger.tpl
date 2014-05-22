@@ -1,6 +1,3 @@
-<h1><i class="fa fa-th"></i> Logger</h1>
-<hr />
-
 <h3>Logger Settings</h3>
 <div class="alert alert-warning">
 

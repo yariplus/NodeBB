@@ -1,6 +1,3 @@
-<h1><i class="fa fa-cogs"></i> Settings</h1>
-<hr />
-
 <ul id="settings-tab" class="nav nav-tabs">
 	<li class="active"><a href="#general" data-toggle="tab">General</a></li>
 	<li><a href="#privilege-thresholds" data-toggle="tab">Privilege Thresholds</a></li>

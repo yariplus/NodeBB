@@ -1,5 +1,3 @@
-<h1><i class="fa fa-code-fork"></i> Plugins</h1>
-
 <div class="alert alert-warning">
 	<p>
 		<strong>Interested in writing plugins for NodeBB?</strong>

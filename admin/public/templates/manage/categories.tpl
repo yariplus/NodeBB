@@ -1,12 +1,10 @@
 
 <div class="categories">
-	<h1><i class="fa fa-folder"></i> Categories
-		<div class="pull-right">
-			<button class="btn btn-default" id="revertChanges">Revert Changes</button>
-			<button class="btn btn-primary" id="addNew">New Category</button>
-		</div>
-	</h1>
-	<hr />
+	<div class="pull-right">
+		<button class="btn btn-default" id="revertChanges">Revert Changes</button>
+		<button class="btn btn-primary" id="addNew">New Category</button>
+	</div>
+
 	<ul class="nav nav-pills">
 		<li class='active'><a href='/admin/categories/active'>Active</a></li>
 		<li class=''><a href='/admin/categories/disabled'>Disabled</a></li>

@@ -1,6 +1,3 @@
-<h1><i class="fa fa-th"></i> Themes</h1>
-<hr />
-
 <div class="themes">
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#" data-target="#themes" data-toggle="tab">Themes</a></li>

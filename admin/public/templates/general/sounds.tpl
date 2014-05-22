@@ -1,7 +1,5 @@
 
 <div class="sounds">
-	<h1><i class="fa fa-volume-up"></i> Sounds</h1>
-	<hr />
 	<p>
 		Sounds for various actions in NodeBB can be configured here.
 	</p>

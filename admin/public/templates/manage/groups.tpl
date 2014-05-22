@@ -1,10 +1,6 @@
-<h1><i class="fa fa-group"></i> Groups</h1>
-
 <div>
 	<button class="btn btn-primary" id="create">New Group</button>
 </div>
-
-<hr />
 
 <div class="groups">
 

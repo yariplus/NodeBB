@@ -1,8 +1,6 @@
-<h1><i class="fa fa-user"></i> Users</h1>
-
 <button id="createUser" class="btn btn-primary">New User</button>
 <a target="_blank" href="/admin/users/csv" class="btn btn-primary">Download CSV</a>
-<hr />
+
 <ul class="nav nav-pills">
 	<li class='active'><a href='{relative_path}/admin/users/latest'>Latest Users</a></li>
 	<li class=''><a href='{relative_path}/admin/users/sort-posts'>Top Posters</a></li>
