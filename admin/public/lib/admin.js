@@ -107,9 +107,13 @@ var admin = {};
 				windows.toggle($(this).parents('[data-window]').attr('data-window'), 'close');
 			});
 
-			el.on('click', function() {
+			el.on('mousedown', function() {
 				windows.toggle($(this).attr('data-window'), 'open');
 				bringToFront($(this));
+			});
+
+			el.draggable({
+				handle: ".panel-heading"
 			});
 
 			bringToFront(el);
