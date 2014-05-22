@@ -20,6 +20,7 @@ var async = require('async'),
 	require('./topics/fork')(Topics);
 	require('./topics/posts')(Topics);
 	require('./topics/follow')(Topics);
+	require('./topics/tags')(Topics);
 
 	Topics.getTopicData = function(tid, callback) {
 		Topics.getTopicsData([tid], function(err, topics) {
@@ -183,7 +184,7 @@ var async = require('async'),
 
 			function isTopicVisible(topicData, topicInfo) {
 				var deleted = parseInt(topicData.deleted, 10) !== 0;
-				return !deleted || (deleted && topicInfo.privileges.meta.view_deleted) || parseInt(topicData.uid, 10) === parseInt(uid, 10);
+				return !deleted || (deleted && topicInfo.privileges.view_deleted) || parseInt(topicData.uid, 10) === parseInt(uid, 10);
 			}
 
 			async.parallel({
@@ -210,6 +211,9 @@ var async = require('async'),
 						return next(null, userCache[topicData.uid]);
 					}
 					user.getUserFields(topicData.uid, ['username', 'userslug', 'picture'], next);
+				},
+				tags: function(next) {
+					Topics.getTopicTagsObjects(topicData.tid, next);
 				}
 			}, function(err, topicInfo) {
 				if(err) {
@@ -233,6 +237,7 @@ var async = require('async'),
 				topicData.category = topicInfo.categoryData;
 				topicData.teaser = topicInfo.teaser;
 				topicData.user = topicInfo.user;
+				topicData.tags = topicInfo.tags;
 
 				next(null, topicData);
 			});
@@ -275,6 +280,9 @@ var async = require('async'),
 				},
 				threadTools: function(next) {
 					plugins.fireHook('filter:topic.thread_tools', [], next);
+				},
+				tags: function(next) {
+					Topics.getTopicTagsObjects(tid, next);
 				}
 			}, function(err, results) {
 				if (err) {
@@ -283,6 +291,7 @@ var async = require('async'),
 
 				topicData.category = results.category;
 				topicData.posts = results.posts;
+				topicData.tags = results.tags;
 				topicData.thread_tools = results.threadTools;
 				topicData.pageCount = results.pageCount;
 				topicData.unreplied = parseInt(topicData.postcount, 10) === 1;

@@ -4,6 +4,7 @@
 	var async = require('async'),
 		winston = require('winston'),
 		user = require('./user'),
+		meta = require('./meta'),
 		db = require('./database'),
 		utils = require('../public/src/utils'),
 
@@ -15,6 +16,8 @@
 				if (groups && !options.showAllGroups) {
 					return groups.filter(function (group) {
 						if (group.deleted || (group.hidden && !group.system) || (!options.showSystemGroups && group.system)) {
+							return false;
+						} else if (options.removeEphemeralGroups && ephemeralGroups.indexOf(group.name) !== -1) {
 							return false;
 						} else {
 							return true;
@@ -180,7 +183,7 @@
 			var system = true;
 		}
 
-		Groups.exists(name, function (err, exists) {
+		meta.userOrGroupExists(name, function (err, exists) {
 			if (err) {
 				return callback(err);
 			}

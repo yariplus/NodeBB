@@ -15,7 +15,8 @@ var fs = require('fs'),
 	translator = require('./../public/src/translator'),
 	db = require('./database'),
 	plugins = require('./plugins'),
-	user = require('./user');
+	user = require('./user'),
+	groups = require('./groups');
 
 (function (Meta) {
 	Meta.restartRequired = false;
@@ -235,6 +236,7 @@ var fs = require('fs'),
 			'vendor/jquery/js/jquery.form.min.js',
 			'vendor/jquery/serializeObject/jquery.ba-serializeobject.min.js',
 			'vendor/bootstrap/js/bootstrap.min.js',
+			'vendor/jquery/bootstrap-tagsinput/bootstrap-tagsinput.min.js',
 			'vendor/requirejs/require.js',
 			'vendor/bootbox/bootbox.min.js',
 			'vendor/tinycon/tinycon.js',
@@ -354,6 +356,7 @@ var fs = require('fs'),
 			}
 
 			source += '\n@import (inline) "..' + path.sep + '..' + path.sep + 'public/vendor/jquery/css/smoothness/jquery-ui-1.10.4.custom.min.css";';
+			source += '\n@import (inline) "..' + path.sep + '..' + path.sep + 'public/vendor/jquery/bootstrap-tagsinput/bootstrap-tagsinput.css";';
 
 			var	parser = new (less.Parser)({
 					paths: paths
@@ -519,6 +522,15 @@ var fs = require('fs'),
 	};
 
 	/* Assorted */
+	Meta.userOrGroupExists = function(slug, callback) {
+		async.parallel([
+			async.apply(user.exists, slug),
+			async.apply(groups.exists, slug)
+		], function(err, results) {
+			callback(err, results.some(function(result) { return result }));
+		});
+	};
+
 	Meta.restart = function() {
 		if (process.send) {
 			process.send({
