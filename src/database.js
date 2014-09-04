@@ -43,7 +43,7 @@ function setupSecondaryDB() {
 									if (secondaryDBkeys.hasOwnProperty(match) && typeof key === 'string' && key.match(/uid:\d*:chats[\S]*/)) {
 										console.log('using 2ndary db for this!', method);
 										funcSecond.apply(this, args);
-									} else {\
+									} else {
 										func.apply(this, args);
 									}
 								}
