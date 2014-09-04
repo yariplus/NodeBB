@@ -7,6 +7,10 @@ var nconf = require('nconf'),
 	winston = require('winston'),
 	async = require('async');
 
+
+//temp
+secondaryDBkeys = [/uid:\d*:chats[\S]*/]
+
 if(!primaryDBName) {
 	winston.info('Database type not set! Run ./nodebb setup');
 	process.exit();
@@ -32,6 +36,26 @@ function setupSecondaryDB() {
 	primaryDB.helpers = {};
 	primaryDB.helpers[primaryDBName] = primaryDBhelpers[primaryDBName];
 	primaryDB.helpers[secondaryDBName] = secondaryDB.helpers[secondaryDBName];
+
+	for (var method in primaryDB) {
+		if (primaryDB.hasOwnProperty(method)) {
+			if (typeof primaryDB[method] === 'function') {
+				var func = primaryDBName[method];
+
+				primaryDB[method] = function() {
+					var key = arguments[0];
+
+					for (var match in secondaryDBkeys) {
+						if (secondaryDBkeys.hasOwnProperty(match) && key.match(secondaryDBkeys[match])) {
+							secondaryDBName[method].apply(this, arguments);
+						} else {
+							func.apply(this, arguments);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 
