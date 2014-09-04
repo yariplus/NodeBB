@@ -81,8 +81,8 @@ function success(err, config, callback) {
 function getSecondaryDatabaseModules(config, next) {
 	prompt.get({
 		"name": "secondary_db_modules",
-		"description": "Which database modules should " + config.secondary_database + " store?",
-		"default": nconf.get('secondary_db_modules') || "hash, list, sets, sorted"
+		"description": "Which keys should " + config.secondary_database + " be responsible for storing? (regex is allowed)",
+		"default": nconf.get('secondary_db_keys') || "ex. /uid:\d*:chats[\S]*/, plugins:active"
 	}, function(err, db) {
 		config.secondary_db_modules = db.secondary_db_modules;
 		success(err, config, next);
