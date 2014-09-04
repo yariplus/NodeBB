@@ -7,10 +7,6 @@ var nconf = require('nconf'),
 	winston = require('winston'),
 	async = require('async');
 
-
-//temp
-secondaryDBkeys = "uid:\\d*:chats[\\S]*"
-
 if(!primaryDBName) {
 	winston.info('Database type not set! Run ./nodebb setup');
 	process.exit();
