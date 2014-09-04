@@ -44,8 +44,10 @@ function setupSecondaryDB() {
 									if (secondaryDBkeys.hasOwnProperty(match) && typeof key === 'string' && key.match(secondaryDBkeys[match])) {
 										console.log(secondaryDBName + ' r/w on ', method, key);
 										funcSecond.apply(this, args);
+										break;
 									} else {
 										func.apply(this, args);
+										break;
 									}
 								}
 							}
