@@ -9,7 +9,7 @@ var nconf = require('nconf'),
 
 
 //temp
-secondaryDBkeys = "/uid:\d*:chats[\S]*/"
+secondaryDBkeys = "/uid:\\d*:chats[\\S]*/"
 
 if(!primaryDBName) {
 	winston.info('Database type not set! Run ./nodebb setup');
@@ -30,22 +30,26 @@ function setupSecondaryDB() {
 			for (var method in primaryDB) {
 				if (primaryDB.hasOwnProperty(method)) {
 					if (typeof primaryDB[method] === 'function') {
-						var func = primaryDB[method];
+						(function() {
+							var func = primaryDB[method],
+								funcSecond = secondaryDB[method];
 
-						primaryDB[method] = function() {
-							var key = arguments[0];
 
-							for (var match in secondaryDBkeys) {
-								if (secondaryDBkeys.hasOwnProperty(match) && typeof key === 'string' && key.match(secondaryDBkeys[match])) {
-									console.log('using 2ndary db for this!');
-									//secondaryDB[method].apply(this, arguments);
-								} else {
-									console.log(func, primaryDB[method]);
+							primaryDB[method] = function() {
+								var args = arguments,
+									key = arguments[0];
 
-									func.call(this, arguments);
+								for (var match in secondaryDBkeys) {
+									if (secondaryDBkeys.hasOwnProperty(match) && typeof key === 'string' && key.match(/uid:\d*:chats[\S]*/)) {
+										console.log('using 2ndary db for this!', method);
+										funcSecond.apply(this, args);
+									} else {\
+										func.apply(this, args);
+									}
 								}
 							}
-						}
+						}())
+
 					}
 				}
 			}

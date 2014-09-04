@@ -18,6 +18,7 @@ module.exports = function(redisClient, module) {
 	};
 
 	module.getListRange = function(key, start, stop, callback) {
+		console.log(key, start, stop, callback);
 		redisClient.lrange(key, start, stop, callback);
 	};
 
