@@ -3,11 +3,9 @@
 var nconf = require('nconf'),
 	primaryDBName = nconf.get('database'),
 	secondaryDBName = nconf.get('secondary_database'),
-	secondaryModules = nconf.get('secondary_db_modules'),
+	secondaryDBkeys = nconf.get('secondary_db_keys'),
 	winston = require('winston'),
-	async = require('async'),
-
-	ALLOWED_MODULES = ['hash', 'list', 'sets', 'sorted'];
+	async = require('async');
 
 if(!primaryDBName) {
 	winston.info('Database type not set! Run ./nodebb setup');
@@ -17,13 +15,7 @@ if(!primaryDBName) {
 function setupSecondaryDB() {
 	var secondaryDB = require('./database/' + secondaryDBName);
 
-	secondaryModules = secondaryModules.split(/,\s*/);
-
-	for (var module in secondaryModules) {
-		if (secondaryModules.hasOwnProperty(module) && ALLOWED_MODULES.indexOf(module) !== -1) {
-			primaryDB[module] = secondaryDB[module];
-		}
-	}
+	secondaryDBkeys = secondaryDBkeys.split(/,\s*/);
 
 	var primaryDBinit = primaryDB.init,
 		primaryDBclose = primaryDB.close,
