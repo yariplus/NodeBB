@@ -42,7 +42,7 @@ function setupSecondaryDB() {
 
 								for (var match in secondaryDBkeys) {
 									if (secondaryDBkeys.hasOwnProperty(match) && typeof key === 'string' && key.match(secondaryDBkeys[match])) {
-										console.log('using 2ndary db for this!', method);
+										console.log(secondaryDBName + ' r/w on ', method, key);
 										funcSecond.apply(this, args);
 									} else {
 										func.apply(this, args);
