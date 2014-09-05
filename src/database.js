@@ -29,31 +29,28 @@ function setupSecondaryDB() {
 	primaryDB.init = function(callback) {
 		async.parallel([primaryDBinit, secondaryDB.init], function(err) {
 			for (var method in primaryDB) {
-				if (primaryDB.hasOwnProperty(method)) {
-					if (typeof primaryDB[method] === 'function') {
-						(function() {
-							var func = primaryDB[method],
-								funcSecond = secondaryDB[method];
+				if (primaryDB.hasOwnProperty(method) && typeof primaryDB[method] === 'function') {
+					(function() {
+						var func = primaryDB[method],
+							funcSecond = secondaryDB[method];
 
 
-							primaryDB[method] = function() {
-								var args = arguments,
-									key = arguments[0];
+						primaryDB[method] = function() {
+							var args = arguments,
+								key = arguments[0];
 
-								for (var match in secondaryDBkeys) {
-									if (secondaryDBkeys.hasOwnProperty(match) && typeof key === 'string' && key.match(secondaryDBkeys[match])) {
-										console.log(secondaryDBName + ' r/w on ', method, key);
-										funcSecond.apply(this, args);
-										break;
-									} else {
-										func.apply(this, args);
-										break;
-									}
+							for (var match in secondaryDBkeys) {
+								if (secondaryDBkeys.hasOwnProperty(match) && typeof key === 'string' && key.match(secondaryDBkeys[match])) {
+									console.log(secondaryDBName + ' r/w on ', method, key);
+									funcSecond.apply(this, args);
+									break;
+								} else {
+									func.apply(this, args);
+									break;
 								}
 							}
-						}())
-
-					}
+						}
+					}())
 				}
 			}
 
