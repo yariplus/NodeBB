@@ -52,7 +52,7 @@ module.exports = function(Meta) {
 			source += '\n@import (inline) "..' + path.sep + '..' + path.sep + 'public/vendor/jquery/bootstrap-tagsinput/bootstrap-tagsinput.css";';
 
 
-			acpSource = '\n@import "..' + path.sep + 'public/less/admin/admin";\n' + source;
+			acpSource = '\n@import "..' + path.sep + 'public/less/admin/index";\n' + source;
 			source = '@import "./theme";\n' + source;
 
 			async.parallel([

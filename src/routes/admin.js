@@ -41,28 +41,39 @@ function addRoutes(router, middleware, controllers) {
 	router.get('/plugins', controllers.admin.plugins.get);
 	router.get('/themes', controllers.admin.themes.get);
 	router.get('/languages', controllers.admin.languages.get);
-	router.get('/groups', controllers.admin.groups.get);
+	//router.get('/groups', controllers.admin.groups.get);
 	router.get('/sounds', controllers.admin.sounds.get);
 
 	//settings
 	router.get('/settings/:term?', middleware.applyCSRF, controllers.admin.settings.get);
 
 	//user
-	router.get('/users', controllers.admin.users.search);
-	router.get('/users/search', controllers.admin.users.search);
-	router.get('/users/latest', controllers.admin.users.sortByJoinDate);
-	router.get('/users/sort-posts', controllers.admin.users.sortByPosts);
-	router.get('/users/sort-reputation', controllers.admin.users.sortByReputation);
+	//router.get('/users', controllers.admin.users.search);
+	//router.get('/users/search', controllers.admin.users.search);
+	//router.get('/users/latest', controllers.admin.users.sortByJoinDate);
+	//router.get('/users/sort-posts', controllers.admin.users.sortByPosts);
+	//router.get('/users/sort-reputation', controllers.admin.users.sortByReputation);
 
 	//forum
-	router.get('/categories/active', middleware.applyCSRF, controllers.admin.categories.active);
-	router.get('/categories/disabled', middleware.applyCSRF, controllers.admin.categories.disabled);
+	//router.get('/categories/active', middleware.applyCSRF, controllers.admin.categories.active);
+	//router.get('/categories/disabled', middleware.applyCSRF, controllers.admin.categories.disabled);
 	router.get('/tags', controllers.admin.tags.get);
 
 	//misc
 	router.get('/database', controllers.admin.database.get);
 	router.get('/events', controllers.admin.events.get);
 	router.get('/logger', controllers.admin.logger.get);
+
+	router.get('/manage/categories', middleware.applyCSRF, controllers.admin.categories.active);
+	router.get('/manage/categories/disabled', middleware.applyCSRF, controllers.admin.categories.disabled);
+
+	router.get('/manage/users', controllers.admin.users.search);
+	router.get('/manage/users/search', controllers.admin.users.search);
+	router.get('/manage/users/latest', controllers.admin.users.sortByJoinDate);
+	router.get('/manage/users/sort-posts', controllers.admin.users.sortByPosts);
+	router.get('/manage/users/sort-reputation', controllers.admin.users.sortByReputation);
+
+	router.get('/manage/groups', controllers.admin.groups.get);
 }
 
 module.exports = function(app, middleware, controllers) {
