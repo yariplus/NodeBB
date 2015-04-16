@@ -29,6 +29,7 @@ apiController.getConfig = function(req, res, next) {
 	config.version = pkg.version;
 	config.siteTitle = validator.escape(meta.config.title || meta.config.browserTitle || 'NodeBB');
 	config.showSiteTitle = parseInt(meta.config.showSiteTitle, 10) === 1;
+	config.showBrowserTitleFirst = parseInt(meta.config.showBrowserTitleFirst, 10) === 1;
 	config.postDelay = meta.config.postDelay;
 	config.minimumTitleLength = meta.config.minimumTitleLength;
 	config.maximumTitleLength = meta.config.maximumTitleLength;

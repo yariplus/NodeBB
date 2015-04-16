@@ -19,6 +19,12 @@
 				If no browser title is specified, the site title will be used
 			</p>
 
+			<div class="checkbox">
+				<label for="showBrowserTitleFirst">
+					<input type="checkbox" id="showBrowserTitleFirst" data-field="showBrowserTitleFirst" name="showBrowserTitleFirst" /> Show Browser Title before Page Title
+				</label>
+			</div>
+
 			<label>Site Description</label>
 			<input type="text" class="form-control" placeholder="A short description about your community" data-field="description" /><br />
 

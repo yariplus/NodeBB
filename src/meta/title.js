@@ -32,7 +32,11 @@ module.exports = function(Meta) {
 				if (title) {
 					title = validator.escape(title);
 				}
-				title = (title ? title + ' | ' : '') + fallbackTitle;
+				if (parseInt(Meta.config.showBrowserTitleFirst, 10) === 1) {
+					title = fallbackTitle + (title ? ' | ' + title : '');
+				}else{
+					title = (title ? title + ' | ' : '') + fallbackTitle;
+				}
 			}
 
 			callback(null, title);
