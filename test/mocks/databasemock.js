@@ -77,8 +77,10 @@
 	nconf.set(dbType, testDbConfig);
 
 	winston.info('database config');
-	winston.info(dbType);
-	winston.info(testDbConfig);
+	winston.info(`type: ${dbType}`);
+	winston.info(`host: ${testDbConfig.host}`);
+	winston.info(`port: ${testDbConfig.port}`);
+	winston.info(`database: ${testDbConfig.database}`);
 
 	var db = require('../../src/database');
 
